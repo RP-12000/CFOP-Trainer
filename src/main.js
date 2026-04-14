@@ -54,10 +54,14 @@ function showIntro() {
 }
 
 const DESCRIPTION =
-  'CFOP — Cross, F2L, OLL, PLL — is the most popular method for solving the Rubik\'s Cube at high speed. ' +
-  'Developed by Jessica Fridrich, it breaks the solve into four elegant stages. ' +
-  'Master each algorithm and you\'ll be solving in seconds. ' +
-  'Ready to begin?';
+    'CFOP is a structured and widely taught method for learning how to solve the Rubik\'s Cube efficiently. ' +
+    'The method is divided into four clear steps: Cross, F2L, OLL, and PLL. ' +
+    'Originally developed by Jessica Fridrich, CFOP is now the standard approach used in most modern cubing tutorials. ' +
+    'Students begin with the Cross to understand cube alignment and planning. ' +
+    'F2L (First Two Layers) introduces intuitive pairing and movement. ' +
+    'OLL and PLL then use algorithms to complete the last layer in a systematic way. ' +
+    'CFOP is designed to be learned step by step, making it ideal for guided lessons and long-term skill development.' +
+    'Master this algorithm and you can solve it in seconds!';
 
 function showDescription() {
   const overlay = app.querySelector('.intro-overlay');

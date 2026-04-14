@@ -1,5 +1,5 @@
 import { ALGORITHMS, SECTIONS, F2L_SUBSECTIONS, OLL_SUBSECTIONS, PLL_SUBSECTIONS } from '../data/cfop.js';
-import { getCompleted, getViewed, clearViewed, isFullyMastered, getMCBest, getFFPassed, clearAllProgress } from '../state.js';
+import { getViewed, clearViewed, isFullyMastered, getMCBest, getFFPassed, clearAllProgress } from '../state.js';
 import { renderFacePreview, FloatingCubesBackground, TitleCubeRenderer } from '../cube/renderer.js';
 import { PLL_arrows } from '../data/configs.js';
 
@@ -36,7 +36,7 @@ export function renderStudyPage(root) {
   sideHeader.className = 'sidebar-header';
   const sideTitle = document.createElement('span');
   sideTitle.className = 'sidebar-title';
-  sideTitle.textContent = 'CFOP';
+  sideTitle.textContent = 'CFOP Trainer';
   const collapseBtn = document.createElement('button');
   collapseBtn.className = 'sidebar-collapse-btn';
   collapseBtn.title = 'Collapse sidebar';
