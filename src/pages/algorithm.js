@@ -2,7 +2,7 @@ import { ALGORITHMS } from '../data/cfop.js';
 import { getCompleted, setCompleted, markViewed,
          saveMCResult, getMCBest, getMCHistory,
          saveFFResult, getFFPassed, getFFHistory,
-         isFullyMastered, clearAlgData } from '../state.js';
+         clearAlgData } from '../state.js';
 import { CubeRenderer } from '../cube/renderer.js';
 import { renderStudyPage } from './study.js';
 
@@ -198,7 +198,7 @@ export function renderAlgorithmPage(root, algId) {
   cubeInnerBox.appendChild(cubeWrap);
   cubeInnerBox.appendChild(stepRow);
 
-  const cubeSize = Math.floor(Math.min(window.innerWidth * 0.515, window.innerHeight * 0.515));
+  const cubeSize = Math.floor(Math.min(window.innerWidth * 0.52, window.innerHeight * 0.52));
   const cubeRenderer = new CubeRenderer(cubeWrap, cubeSize, alg.state || null);
 
   // Nav row
@@ -344,6 +344,21 @@ export function renderAlgorithmPage(root, algId) {
     const testMode = (mode === 'mc' || mode === 'ff');
     playBtn.disabled = testMode;
     stepGuideBtn.disabled = testMode;
+
+    // If switching to a test mode, abort any active animation or step mode
+    if (testMode) {
+      if (stepActive) exitStepMode();
+      if (animating) {
+        // Stop the animation flag — animateMovesOnCube will keep firing but
+        // resetCube clears the visual state immediately
+        animating = false;
+        playBtn.disabled = true;   // keep disabled since we're in test mode
+        stepGuideBtn.disabled = true;
+        cubeRenderer.resetCube(alg.state || null);
+        algDisplay.textContent = '';
+      }
+    }
+
     if (mode === 'mc') renderMCMode();
     else if (mode === 'ff') renderFFMode();
     else if (mode === 'study') renderStudyMode();
@@ -356,7 +371,7 @@ export function renderAlgorithmPage(root, algId) {
 
   // ── Study Formula ─────────────────────────────────────────────────────────
   const FUN_FACTS = [
-    "There are 43 quintillion (43,252,003,274,489,856,000) possible positions of a 3×3×3 Rubik's Cube.",
+    "There are over 43 quintillion (43,252,003,274,489,856,000) possible positions of a 3×3×3 Rubik's Cube.",
     "If you turned a Rubik's Cube once every second, it would take 1.4 trillion years to go through all positions.",
     "The Rubik's Cube was invented in 1974 by Hungarian professor Ernő Rubik, who originally called it the 'Magic Cube'.",
     "God's Number is 20 — every scrambled Rubik's Cube can be solved in 20 moves or fewer (using half-turn metric).",
@@ -666,7 +681,6 @@ export function renderAlgorithmPage(root, algId) {
     if (e.key === 'PageUp') {
       e.preventDefault();
       if (prevAlg) { cubeRenderer.destroy(); renderAlgorithmPage(root, prevAlg.id); }
-      return;
     }
   };
 

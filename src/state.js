@@ -79,6 +79,8 @@ export function clearAlgData(algId) {
   const mc = getMCRecords(); delete mc[algId]; localStorage.setItem(MC_KEY, JSON.stringify(mc));
   const ff = getFFRecords(); delete ff[algId]; localStorage.setItem(FF_KEY, JSON.stringify(ff));
   const comp = getCompleted(); comp.delete(algId); setCompleted(comp);
+  // Also clear viewed so the NEW tag reappears
+  const v = getViewed(); v.delete(algId); localStorage.setItem('cfop_viewed', JSON.stringify([...v]));
 }
 
 // ── Clear everything ──────────────────────────────────────────────────────────

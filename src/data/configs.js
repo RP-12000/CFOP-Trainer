@@ -225,142 +225,38 @@ export const PLL_variations = {
 };
 
 // ---------------------------------------------------------------------------
-// PLL_arrows — arrow data for PLL diagrams
-// Each entry is an array of arrow objects: { from: [row,col], to: [row,col] }
-// Positions use the top-down U-face grid (row 0=top, col 0=left, 0-indexed 0..2)
-// plus side positions encoded as { side: 'F'|'B'|'L'|'R', pos: 0|1|2 }
-// where pos 0=left, 1=center, 2=right (from front perspective for each side).
-// Arrows show where each piece moves TO.
+// PLL_arrows — cyclic arrow data for PLL diagrams
+// Each entry is an array of cycles. Each cycle is an array of U-face sticker
+// indices (0–8, row-major: 0=top-left … 8=bot-right).
+//
+// A cycle [a,b,c] draws: a→b, b→c, c→a  (single-headed)
+// A cycle [a,b]   draws: a→b, b→a        (double swap = two single arrows)
+//
+// U face index layout (top-down view):
+//   0 1 2
+//   3 4 5
+//   6 7 8
 // ---------------------------------------------------------------------------
 export const PLL_arrows = {
-  'Ua Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'F', pos:1 } },
-    { from: { side:'F', pos:1 }, to: { side:'F', pos:2 } },
-    { from: { side:'F', pos:2 }, to: { side:'F', pos:0 } },
-  ],
-  'Ub Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'F', pos:2 } },
-    { from: { side:'F', pos:2 }, to: { side:'F', pos:1 } },
-    { from: { side:'F', pos:1 }, to: { side:'F', pos:0 } },
-  ],
-  'H Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'B', pos:2 } },
-    { from: { side:'B', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:2 }, to: { side:'B', pos:0 } },
-    { from: { side:'B', pos:0 }, to: { side:'F', pos:2 } },
-  ],
-  'Z Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'L', pos:2 } },
-    { from: { side:'L', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:2 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'F', pos:2 } },
-  ],
-  'Aa Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'B', pos:2 } },
-    { from: { side:'B', pos:2 }, to: { side:'F', pos:0 } },
-  ],
-  'Ab Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'B', pos:2 } },
-    { from: { side:'B', pos:2 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'F', pos:0 } },
-  ],
-  'E Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'B', pos:0 } },
-    { from: { side:'B', pos:0 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:2 }, to: { side:'B', pos:2 } },
-    { from: { side:'B', pos:2 }, to: { side:'F', pos:2 } },
-  ],
-  'T Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'F', pos:2 } },
-    { from: { side:'F', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:1 }, to: { side:'R', pos:1 } },
-    { from: { side:'R', pos:1 }, to: { side:'F', pos:1 } },
-  ],
-  'F Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'R', pos:2 } },
-    { from: { side:'R', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:1 }, to: { side:'R', pos:1 } },
-    { from: { side:'R', pos:1 }, to: { side:'F', pos:1 } },
-  ],
-  'Ja Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'F', pos:2 } },
-    { from: { side:'F', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:2 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'F', pos:2 } },
-  ],
-  'Jb Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'F', pos:2 } },
-    { from: { side:'F', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:0 }, to: { side:'L', pos:2 } },
-    { from: { side:'L', pos:2 }, to: { side:'F', pos:0 } },
-  ],
-  'Ra Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:1 }, to: { side:'R', pos:1 } },
-    { from: { side:'R', pos:1 }, to: { side:'F', pos:1 } },
-  ],
-  'Rb Perm': [
-    { from: { side:'F', pos:2 }, to: { side:'R', pos:2 } },
-    { from: { side:'R', pos:2 }, to: { side:'F', pos:2 } },
-    { from: { side:'F', pos:1 }, to: { side:'R', pos:1 } },
-    { from: { side:'R', pos:1 }, to: { side:'F', pos:1 } },
-  ],
-  'V Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'R', pos:2 } },
-    { from: { side:'R', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:2 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'F', pos:2 } },
-  ],
-  'Y Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:2 }, to: { side:'B', pos:0 } },
-    { from: { side:'B', pos:0 }, to: { side:'F', pos:2 } },
-  ],
-  'Na Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'R', pos:2 } },
-    { from: { side:'R', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:2 }, to: { side:'L', pos:0 } },
-    { from: { side:'L', pos:0 }, to: { side:'F', pos:2 } },
-  ],
-  'Nb Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'L', pos:2 } },
-    { from: { side:'L', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:2 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'F', pos:2 } },
-  ],
-  'Ga Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'B', pos:2 } },
-    { from: { side:'B', pos:2 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:1 }, to: { side:'R', pos:1 } },
-    { from: { side:'R', pos:1 }, to: { side:'B', pos:1 } },
-    { from: { side:'B', pos:1 }, to: { side:'F', pos:1 } },
-  ],
-  'Gb Perm': [
-    { from: { side:'F', pos:0 }, to: { side:'B', pos:2 } },
-    { from: { side:'B', pos:2 }, to: { side:'R', pos:0 } },
-    { from: { side:'R', pos:0 }, to: { side:'F', pos:0 } },
-    { from: { side:'F', pos:1 }, to: { side:'B', pos:1 } },
-    { from: { side:'B', pos:1 }, to: { side:'R', pos:1 } },
-    { from: { side:'R', pos:1 }, to: { side:'F', pos:1 } },
-  ],
-  'Gc Perm': [
-    { from: { side:'F', pos:2 }, to: { side:'L', pos:0 } },
-    { from: { side:'L', pos:0 }, to: { side:'B', pos:0 } },
-    { from: { side:'B', pos:0 }, to: { side:'F', pos:2 } },
-    { from: { side:'F', pos:1 }, to: { side:'L', pos:1 } },
-    { from: { side:'L', pos:1 }, to: { side:'B', pos:1 } },
-    { from: { side:'B', pos:1 }, to: { side:'F', pos:1 } },
-  ],
-  'Gd Perm': [
-    { from: { side:'F', pos:2 }, to: { side:'B', pos:0 } },
-    { from: { side:'B', pos:0 }, to: { side:'L', pos:0 } },
-    { from: { side:'L', pos:0 }, to: { side:'F', pos:2 } },
-    { from: { side:'F', pos:1 }, to: { side:'B', pos:1 } },
-    { from: { side:'B', pos:1 }, to: { side:'L', pos:1 } },
-    { from: { side:'L', pos:1 }, to: { side:'F', pos:1 } },
-  ],
+  'Ua Perm': [[1,3,5]],              // 3-cycle CCW: bottom-left → bottom-center → bottom-right → back
+  'Ub Perm': [[5,3,1]],              // 3-cycle CW
+  'H Perm':  [[1,7],[3,5]],          // two 2-swaps: top-center↔bottom-center, left↔right
+  'Z Perm':  [[1,3],[5,7]],          // two 2-swaps: top-center↔left, right↔bottom-center
+  'Aa Perm': [[0,2,8]],              // 3-cycle corners CW
+  'Ab Perm': [[8,2,0]],              // 3-cycle corners CCW
+  'E Perm':  [[0,2],[6,8]],          // two 2-swaps: diagonal corners
+  'T Perm':  [[2,8],[3,5]],          // 2-swap corners + 2-swap edges
+  'F Perm':  [[1,7],[2,8]],
+  'Ja Perm': [[0,6],[3,7]],
+  'Jb Perm': [[2,8],[5,7]],
+  'Ra Perm': [[0,2],[3,7]],              // 3-cycle
+  'Rb Perm': [[0,2],[5,7]],              // 3-cycle reverse
+  'V Perm':  [[1,5],[0,8]],
+  'Y Perm':  [[0,8],[1,3]],
+  'Na Perm': [[2,6],[3,5]],
+  'Nb Perm': [[0,8],[3,5]],
+  'Ga Perm': [[8,6,0],[7,1,3]],      // two 3-cycles
+  'Gb Perm': [[0,6,8],[3,1,7]],
+  'Gc Perm': [[6,8,2],[7,1,5]],
+  'Gd Perm': [[2,8,6],[5,1,7]],
 };

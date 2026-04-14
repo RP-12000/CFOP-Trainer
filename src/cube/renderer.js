@@ -139,10 +139,10 @@ export class CubeState {
       this._rotateFaceCW(this.U);
       // U CW (from top): F-top -> R-top -> B-top -> L-top -> F-top
       const tmp = [this.F[0],this.F[1],this.F[2]];
-      [this.F[0],this.F[1],this.F[2]] = [this.R[0],this.R[1],this.R[2]];
-      [this.R[0],this.R[1],this.R[2]] = [this.B[0],this.B[1],this.B[2]];
-      [this.B[0],this.B[1],this.B[2]] = [this.L[0],this.L[1],this.L[2]];
-      [this.L[0],this.L[1],this.L[2]] = tmp;
+      [this.F[0],this.F[1],this.F[2]] = [this.L[0],this.L[1],this.L[2]];
+      [this.L[0],this.L[1],this.L[2]] = [this.B[0],this.B[1],this.B[2]];
+      [this.B[0],this.B[1],this.B[2]] = [this.R[0],this.R[1],this.R[2]];
+      [this.R[0],this.R[1],this.R[2]] = tmp;
     }
   }
   _D(n) {
@@ -805,52 +805,50 @@ function renderOLLPLLPreview(state, cellSize = 14, arrows = null) {
   }
 
   // Draw arrows if provided
+  // arrows: array of cycles, each cycle is an array of U-face sticker indices (0–8)
+  // Cycle [a,b,c] → draws a→b, b→c, c→a  (single-headed, wraps around)
+  // Cycle [a,b]   → draws a→b, b→a        (two-element swap)
   if (arrows && arrows.length) {
-    // Map a side+pos to SVG center coordinates on the trapezoid strip
-    // pos: 0=left/top, 1=center, 2=right/bottom
-    function sideCenter(side, pos) {
-      const half = cs / 2;
-      const trapMid = trap / 2;
-      switch (side) {
-        case 'F': return [fx + pos * cs + half, fy + fw - 1 + trapMid];
-        case 'B': return [fx + (2 - pos) * cs + half, fy - trapMid];
-        case 'R': return [fx + fw - 1 + trapMid, fy + pos * cs + half];
-        case 'L': return [fx - trapMid, fy + pos * cs + half];
-        default:  return [fx + fw / 2, fy + fw / 2];
-      }
+    function cellCenter(idx) {
+      const row = Math.floor(idx / 3);
+      const col = idx % 3;
+      return [fx + col * cs + (cs - 1) / 2, fy + row * cs + (cs - 1) / 2];
     }
 
-    arrows.forEach(({ from, to }) => {
-      const [x1, y1] = sideCenter(from.side, from.pos);
-      const [x2, y2] = sideCenter(to.side, to.pos);
-
-      // Arrow line
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', x1.toFixed(1));
-      line.setAttribute('y1', y1.toFixed(1));
-      line.setAttribute('x2', x2.toFixed(1));
-      line.setAttribute('y2', y2.toFixed(1));
-      line.setAttribute('stroke', 'rgba(180,180,180,0.9)');
-      line.setAttribute('stroke-width', '1.5');
-      line.setAttribute('marker-end', 'url(#arrowhead)');
-      svg.appendChild(line);
-    });
-
-    // Define arrowhead marker (add once)
+    // Single arrowhead marker
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-    marker.setAttribute('id', 'arrowhead');
-    marker.setAttribute('markerWidth', '6');
-    marker.setAttribute('markerHeight', '6');
-    marker.setAttribute('refX', '5');
-    marker.setAttribute('refY', '3');
+    marker.setAttribute('id', 'arr-tip');
+    marker.setAttribute('markerWidth', '3');
+    marker.setAttribute('markerHeight', '3');
+    marker.setAttribute('refX', '2.8');
+    marker.setAttribute('refY', '1.5');
     marker.setAttribute('orient', 'auto');
-    const arrowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    arrowPath.setAttribute('d', 'M0,0 L0,6 L6,3 z');
-    arrowPath.setAttribute('fill', 'rgba(180,180,180,0.9)');
-    marker.appendChild(arrowPath);
+    const mPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    mPath.setAttribute('d', 'M0,0 L0,3 L3,1.5 z');
+    mPath.setAttribute('fill', 'rgba(60,60,60,0.9)');
+    marker.appendChild(mPath);
     defs.appendChild(marker);
     svg.insertBefore(defs, svg.firstChild);
+
+    arrows.forEach(cycle => {
+      const n = cycle.length;
+      for (let i = 0; i < n; i++) {
+        const a = cycle[i];
+        const b = cycle[(i + 1) % n];
+        const [x1, y1] = cellCenter(a);
+        const [x2, y2] = cellCenter(b);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1.toFixed(1));
+        line.setAttribute('y1', y1.toFixed(1));
+        line.setAttribute('x2', x2.toFixed(1));
+        line.setAttribute('y2', y2.toFixed(1));
+        line.setAttribute('stroke', 'rgba(60,60,60,0.9)');
+        line.setAttribute('stroke-width', '1.2');
+        line.setAttribute('marker-end', 'url(#arr-tip)');
+        svg.appendChild(line);
+      }
+    });
   }
 
   return svg;
