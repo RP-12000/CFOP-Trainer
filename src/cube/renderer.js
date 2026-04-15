@@ -139,10 +139,10 @@ export class CubeState {
       this._rotateFaceCW(this.U);
       // U CW (from top): F-top -> R-top -> B-top -> L-top -> F-top
       const tmp = [this.F[0],this.F[1],this.F[2]];
-      [this.F[0],this.F[1],this.F[2]] = [this.L[0],this.L[1],this.L[2]];
-      [this.L[0],this.L[1],this.L[2]] = [this.B[0],this.B[1],this.B[2]];
-      [this.B[0],this.B[1],this.B[2]] = [this.R[0],this.R[1],this.R[2]];
-      [this.R[0],this.R[1],this.R[2]] = tmp;
+      [this.F[0],this.F[1],this.F[2]] = [this.R[0],this.R[1],this.R[2]];
+      [this.R[0],this.R[1],this.R[2]] = [this.B[0],this.B[1],this.B[2]];
+      [this.B[0],this.B[1],this.B[2]] = [this.L[0],this.L[1],this.L[2]];
+      [this.L[0],this.L[1],this.L[2]] = tmp;
     }
   }
   _D(n) {
