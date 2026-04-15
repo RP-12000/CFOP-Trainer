@@ -48,8 +48,6 @@ export class CubeState {
     f[3]=o[7]; f[4]=o[4]; f[5]=o[1];
     f[6]=o[8]; f[7]=o[5]; f[8]=o[2];
   }
-  _rotateFaceCCW(f) { this._rotateFaceCW(f); this._rotateFaceCW(f); this._rotateFaceCW(f); }
-  _rotateFace180(f) { this._rotateFaceCW(f); this._rotateFaceCW(f); }
 
   applyMove(move) {
     switch(move) {
