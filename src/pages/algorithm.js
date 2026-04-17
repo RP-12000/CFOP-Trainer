@@ -14,10 +14,11 @@ function invertMove(m) {
   return m + "'";
 }
 
-function animateMovesOnCube(moves, display, renderer, onDone) {
+function animateMovesOnCube(moves, display, renderer, onDone, cancelRef) {
   if (!moves.length) { if (display) display.textContent = ''; onDone(); return; }
   let i = 0;
   function step() {
+    if (cancelRef && cancelRef.cancelled) return;
     if (i >= moves.length) { onDone(); return; }
     if (display) {
       display.innerHTML = moves.map((m, idx) =>
@@ -25,13 +26,17 @@ function animateMovesOnCube(moves, display, renderer, onDone) {
         idx < i     ? `<span class="move-done">${m}</span>` : m
       ).join(' ');
     }
-    renderer.doMove(moves[i], () => { i++; setTimeout(step, 280); });
+    renderer.doMove(moves[i], () => {
+      if (cancelRef && cancelRef.cancelled) return;
+      i++;
+      setTimeout(step, 280);
+    });
   }
   step();
 }
 
 // ── main render ───────────────────────────────────────────────────────────────
-export function renderAlgorithmPage(root, algId) {
+export function renderAlgorithmPage(root, algId, onBack) {
   const alg = ALGORITHMS.find(a => a.id === algId);
   if (!alg) return;
 
@@ -45,7 +50,12 @@ export function renderAlgorithmPage(root, algId) {
   const backBtn = document.createElement('button');
   backBtn.className = 'btn-ghost alg-back-btn';
   backBtn.textContent = '← Back';
-  backBtn.addEventListener('click', () => { cubeRenderer.destroy(); renderStudyPage(root); });
+  backBtn.addEventListener('click', () => {
+    cubeRenderer.destroy();
+    // If we came from the test results page, go back there; otherwise study page
+    if (typeof onBack === 'function') onBack();
+    else renderStudyPage(root);
+  });
 
   const topRight = document.createElement('div');
   topRight.className = 'alg-topbar-right';
@@ -247,23 +257,38 @@ export function renderAlgorithmPage(root, algId) {
 
   // ── Play Animation ────────────────────────────────────────────────────────
   let animating = false;
+  let animCancelRef = { cancelled: false };
+
+  function cancelAnimation() {
+    if (animating) {
+      animCancelRef.cancelled = true;
+      animCancelRef = { cancelled: false }; // fresh ref for next use
+      animating = false;
+      cubeRenderer.resetCube(alg.state || null);
+      algDisplay.textContent = '';
+    }
+  }
 
   function doPlay() {
     if (animating) return;
     animating = true;
+    animCancelRef = { cancelled: false };
+    const ref = animCancelRef;
     markViewed(algId);
     playBtn.disabled = true;
     stepGuideBtn.disabled = true;
     const moves = alg.moves ? alg.moves.split(' ').filter(Boolean) : [];
     animateMovesOnCube(moves, algDisplay, cubeRenderer, () => {
+      if (ref.cancelled) return;
       animating = false;
       playBtn.disabled = false;
       stepGuideBtn.disabled = false;
       setTimeout(() => {
+        if (ref.cancelled) return;
         cubeRenderer.resetCube(alg.state || null);
         algDisplay.textContent = '';
       }, 2000);
-    });
+    }, ref);
   }
 
   playBtn.addEventListener('click', doPlay);
@@ -348,15 +373,7 @@ export function renderAlgorithmPage(root, algId) {
     // If switching to a test mode, abort any active animation or step mode
     if (testMode) {
       if (stepActive) exitStepMode();
-      if (animating) {
-        // Stop the animation flag — animateMovesOnCube will keep firing but
-        // resetCube clears the visual state immediately
-        animating = false;
-        playBtn.disabled = true;   // keep disabled since we're in test mode
-        stepGuideBtn.disabled = true;
-        cubeRenderer.resetCube(alg.state || null);
-        algDisplay.textContent = '';
-      }
+      cancelAnimation();
     }
 
     if (mode === 'mc') renderMCMode();
@@ -568,28 +585,46 @@ export function renderAlgorithmPage(root, algId) {
         const comp = getCompleted();
         if (getMCBest(algId) === 5) { comp.add(algId); setCompleted(comp); }
         cubeRenderer.resetCube(alg.state || null);
+        const ffRef = { cancelled: false };
+        animCancelRef = ffRef;
+        animating = true;
         animateMovesOnCube(userMoves, algDisplay, cubeRenderer, () => {
-          setTimeout(() => { cubeRenderer.resetCube(alg.state || null); algDisplay.textContent = ''; }, 2000);
-        });
+          if (ffRef.cancelled) return;
+          animating = false;
+          setTimeout(() => {
+            if (ffRef.cancelled) return;
+            cubeRenderer.resetCube(alg.state || null);
+            algDisplay.textContent = '';
+          }, 2000);
+        }, ffRef);
       } else {
         ffFeedback.innerHTML = '<span style="color:#ff4444">✗ Not quite. Playing your answer first...</span>';
         cubeRenderer.resetCube(alg.state || null);
+        const ffRef = { cancelled: false };
+        animCancelRef = ffRef;
+        animating = true;
         animateMovesOnCube(userMoves, algDisplay, cubeRenderer, () => {
+          if (ffRef.cancelled) return;
           setTimeout(() => {
+            if (ffRef.cancelled) return;
             cubeRenderer.resetCube(alg.state || null);
             algDisplay.textContent = '';
             ffFeedback.innerHTML = '<span style="color:var(--accent2)">Now playing the correct solution...</span>';
             setTimeout(() => {
+              if (ffRef.cancelled) return;
               animateMovesOnCube(correctMoves, algDisplay, cubeRenderer, () => {
+                if (ffRef.cancelled) return;
+                animating = false;
                 setTimeout(() => {
+                  if (ffRef.cancelled) return;
                   cubeRenderer.resetCube(alg.state || null);
                   algDisplay.textContent = '';
                   renderFFMode();
                 }, 2000);
-              });
+              }, ffRef);
             }, 400);
           }, 2000);
-        });
+        }, ffRef);
       }
       renderHistory();
     });

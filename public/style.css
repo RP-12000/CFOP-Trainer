@@ -58,6 +58,7 @@ html.light-mode .alg-name { color: rgba(0,0,0,0.8); }
 html.light-mode .test-prompt { color: rgba(0,0,0,0.6); }
 html.light-mode .test-move { color: rgba(0,0,0,0.5); }
 html.light-mode .test-move.current { color: #2563eb; }
+html.light-mode .sf-fact-box { color: #111; }
 
 @font-face {
   font-family: 'JetBrains Mono';
@@ -247,7 +248,7 @@ html, body {
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* ── Study Page — layout ──────────────────────────────────────────────────── */
+/* ── Study Page �?layout ──────────────────────────────────────────────────── */
 .study-page { min-height: 100vh; position: relative; }
 
 .study-layout {
@@ -314,7 +315,7 @@ html.light-mode .sidebar-header { border-bottom-color: rgba(0,0,0,0.07); }
 }
 .sidebar-collapse-btn:hover { color: var(--fg); }
 
-/* Sidebar body — scrollable, hidden when collapsed */
+/* Sidebar body �?scrollable, hidden when collapsed */
 .sidebar-body {
   display: flex;
   flex-direction: column;
@@ -402,10 +403,11 @@ html.light-mode .sidebar-progress-bar-wrap { background: rgba(0,0,0,0.1); }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 8px;
+  padding: 6px 8px;
   border-radius: 4px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  /* ── SIDEBAR SECTION LINK FONT SIZE �?adjust here ── */
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--accent2);
   text-decoration: none;
@@ -415,16 +417,18 @@ html.light-mode .sidebar-progress-bar-wrap { background: rgba(0,0,0,0.1); }
 html.light-mode .sidebar-nav-section:hover { background: rgba(0,0,0,0.06); }
 
 .snl-count {
-  font-size: 0.62rem;
+  /* ── SIDEBAR SECTION COUNT FONT SIZE �?adjust here ── */
+  font-size: 0.75rem;
   color: var(--muted);
   font-weight: 400;
 }
 
 .sidebar-nav-sub {
   display: block;
-  padding: 3px 8px 3px 18px;
+  padding: 4px 8px 4px 18px;
   border-radius: 4px;
-  font-size: 0.68rem;
+  /* ── SIDEBAR SUBLINK FONT SIZE �?adjust here ── */
+  font-size: 0.90rem;
   color: var(--muted2);
   text-decoration: none;
   transition: background 0.15s, color 0.15s;
@@ -438,7 +442,8 @@ html.light-mode .sidebar-nav-sub:hover { background: rgba(0,0,0,0.05); }
 /* ── Study main content ───────────────────────────────────────────────────── */
 .study-main {
   margin-left: 200px;
-  padding: 60px 28px 60px;
+  /* ── STUDY MAIN TOP PADDING �?controls distance of topbar from screen top ── */
+  padding: 4px 28px 60px;
   flex: 1;
   min-width: 0;
   transition: margin-left 0.22s ease;
@@ -472,7 +477,7 @@ html.light-mode .sidebar-nav-sub:hover { background: rgba(0,0,0,0.05); }
 .badge-mc { background: rgba(96,165,250,0.25); color: var(--accent2); border: 1px solid rgba(96,165,250,0.4); }
 .badge-ff { background: rgba(74,222,128,0.2); color: var(--accent); border: 1px solid rgba(74,222,128,0.4); }
 
-/* ── Algorithm page — new layout ─────────────────────────────────────────── */
+/* ── Algorithm page �?new layout ─────────────────────────────────────────── */
 .alg-left-col {
   width: 30%;
   flex-shrink: 0;
@@ -956,7 +961,7 @@ html.light-mode .study-footer { color: rgba(0,0,0,0.4); border-color: var(--card
   overflow: hidden;
 }
 
-/* Right column — 70% */
+/* Right column �?70% */
 .alg-right-col {
   flex: 1;
   display: flex;
@@ -1027,7 +1032,7 @@ html.light-mode .cube-name-box  { border-color: rgba(0,0,0,0.08); background: rg
   font-size: clamp(0.85rem, 1.8vw, 1.1rem);
   color: rgba(255,255,255,0.9);
   letter-spacing: 0.12em;
-  height: 44px;           /* fixed — never shifts cube */
+  height: 44px;           /* fixed �?never shifts cube */
   margin-bottom: 8px;
   text-align: center;
   line-height: 2;
@@ -1068,7 +1073,7 @@ html.light-mode .cube-name-box  { border-color: rgba(0,0,0,0.08); background: rg
 }
 .alg-cube-nav-btn:disabled { opacity: 0.2; cursor: default; }
 
-/* Show Solution / Test Your Memory in nav row — larger */
+/* Show Solution / Test Your Memory in nav row �?larger */
 .alg-cube-nav-btn.btn-primary,
 .alg-cube-nav-btn.btn-secondary {
   font-size: 0.95rem;
@@ -1159,7 +1164,7 @@ html.light-mode .cube-name-box  { border-color: rgba(0,0,0,0.08); background: rg
   padding: 8px;
   font-size: 0.85rem;
   flex-shrink: 0;
-  margin-top: 16px;   /* tighter — Apply Move sits closer to last section */
+  margin-top: 16px;   /* tighter �?Apply Move sits closer to last section */
 }
 
 .move-group-label {
@@ -1382,4 +1387,1041 @@ html.light-mode .cube-name-box  { border-color: rgba(0,0,0,0.08); background: rg
 }
 .title-cube-wrap {
   flex-shrink: 0;
+}
+
+
+/* ── Sidebar: 18% width, bigger collapse btn ──────────────────────────────── */
+.study-sidebar {
+  width: 18%;
+  min-width: 160px;
+}
+.study-sidebar.sidebar-collapsed {
+  width: 44px;
+  min-width: 44px;
+}
+.study-main {
+  margin-left: 18%;
+}
+.sidebar-collapse-btn {
+  font-size: 1.5rem;
+  padding: 2px 6px;
+  min-width: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Study top bar ────────────────────────────────────────────────────────── */
+.study-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* ── TOPBAR TOP MARGIN — adjust padding-top here ── */
+  padding: 6px 0 4px;
+  gap: 8px;
+  position: relative;
+}
+
+.study-topbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.topbar-icon-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--fg);
+  font-size: 1.15rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.topbar-icon-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.5);
+}
+html.light-mode .topbar-icon-btn {
+  border-color: rgba(0,0,0,0.18);
+}
+html.light-mode .topbar-icon-btn:hover {
+  background: rgba(0,0,0,0.07);
+  border-color: rgba(0,0,0,0.4);
+}
+.topbar-user-btn {
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
+.topbar-user-btn:hover {
+  background: rgba(96,165,250,0.12) !important;
+}
+
+/* ── User dropdown ────────────────────────────────────────────────────────── */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 500;
+  background: rgba(10,10,14,0.97);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 14px 16px 10px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  animation: fadeIn 0.15s ease;
+}
+html.light-mode .user-dropdown {
+  background: rgba(255,255,255,0.97);
+  border-color: rgba(0,0,0,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.user-dropdown-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent2);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.user-dropdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.ud-total { margin-top: 2px; }
+.ud-val { font-family: var(--font-mono); }
+.ud-val.ud-accent { color: var(--accent); }
+.user-dropdown-bar-wrap {
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin: 4px 0 6px;
+  overflow: hidden;
+}
+html.light-mode .user-dropdown-bar-wrap { background: rgba(0,0,0,0.1); }
+.user-dropdown-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.ud-clear-btn {
+  width: 100%;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  padding: 5px 8px;
+  text-align: center;
+}
+
+/* ── Test Page Layout ─────────────────────────────────────────────────────── */
+.test-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+.test-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+.test-left-panel {
+  width: 50%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  height: 100%;
+  overflow: hidden;
+}
+html.light-mode .test-left-panel { border-right-color: rgba(0,0,0,0.1); }
+
+/* Back button bar — mirrors study page topbar position */
+.test-topbar {
+  display: flex;
+  align-items: center;
+  /* ── TEST PAGE BACK BUTTON TOP MARGIN — adjust padding-top here ── */
+  padding: 8px 16px 6px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+html.light-mode .test-topbar { border-bottom-color: rgba(0,0,0,0.07); }
+.test-back-btn {
+  font-size: 0.9rem;
+  padding: 6px 16px;
+}
+
+.test-question-area {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+html.light-mode .test-question-area { border-bottom-color: rgba(0,0,0,0.1); }
+
+/* Grid area: exactly 50% of left panel height */
+.test-grid-area {
+  flex: 0 0 50%;
+  overflow-y: auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.test-right-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+.test-cube-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Question header ──────────────────────────────────────────────────────── */
+.test-q-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.test-q-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.test-q-type {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent2);
+  background: rgba(96,165,250,0.1);
+  border: 1px solid rgba(96,165,250,0.25);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+/* Nav row sits BELOW question content */
+.test-nav-row {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+  flex-shrink: 0;
+}
+.test-nav-btn {
+  font-size: 0.8rem;
+  padding: 5px 14px;
+}
+
+/* ── MC question ──────────────────────────────────────────────────────────── */
+.test-mc-prompt {
+  font-size: 0.9rem;
+  color: var(--fg);
+  line-height: 1.5;
+}
+/* 3 columns × 2 rows = 6 text-only choices */
+.test-mc-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.test-mc-choice-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 7px;
+  padding: 10px 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 52px;
+}
+.test-mc-choice-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.4);
+}
+.test-mc-choice-btn:disabled { cursor: default; }
+/* Selected — just blue, no right/wrong reveal */
+.test-mc-choice-btn.test-mc-selected {
+  background: rgba(96,165,250,0.2);
+  border-color: var(--accent2);
+}
+.test-mc-choice-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--fg);
+  word-break: break-all;
+  line-height: 1.5;
+}
+html.light-mode .test-mc-choice-btn { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.12); }
+
+/* ── FF question ──────────────────────────────────────────────────────────── */
+.test-ff-prompt {
+  font-size: 0.88rem;
+  color: var(--fg);
+  line-height: 1.5;
+}
+/* Full-width textarea, 30vh tall, no resize */
+.test-ff-input {
+  width: 100%;
+  height: 30vh;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  padding: 12px 14px;
+  border-radius: 5px;
+  outline: none;
+  resize: none;
+  transition: border-color 0.2s;
+  line-height: 1.6;
+}
+.test-ff-input:focus { border-color: var(--accent2); }
+html.light-mode .test-ff-input { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.2); }
+.test-ff-submit { margin-top: 2px; }
+.test-ff-saved {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+}
+
+/* ── Question grid (5 per row, large) ────────────────────────────────────── */
+.test-grid-title {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.test-q-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+.test-q-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--muted2);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  padding: 10px 4px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.12s, border-color 0.12s;
+}
+.test-q-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.35); }
+.test-q-btn.test-q-answered { background: rgba(96,165,250,0.2); border-color: var(--accent2); color: var(--accent2); }
+.test-q-btn.test-q-current { border-color: var(--accent); color: var(--accent); }
+.test-q-btn.test-q-ff { border-style: dashed; }
+html.light-mode .test-q-btn { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: rgba(0,0,0,0.5); }
+
+.test-submit-btn {
+  font-size: 0.9rem;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* ── Test Results ─────────────────────────────────────────────────────────── */
+.test-results-page {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px 60px;
+  overflow-y: auto;
+  min-height: 100vh;
+}
+.test-results-box {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.test-results-score {
+  font-family: var(--font-mono);
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+.test-results-breakdown {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  font-size: 0.88rem;
+  color: var(--muted2);
+  font-family: var(--font-mono);
+}
+.test-results-grade {
+  font-size: 1.2rem;
+  text-align: center;
+  color: var(--fg);
+}
+.test-review-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+html.light-mode .test-review-title { border-top-color: rgba(0,0,0,0.1); }
+
+.test-review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Each review row: score | alg card | your answer | correct answer */
+.test-review-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+html.light-mode .test-review-row { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.07); }
+
+.trr-score {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.trr-pass { color: var(--accent); }
+.trr-fail { color: rgba(255,80,80,0.8); }
+
+/* Algorithm card — same style as menu page cards, clickable */
+.trr-alg-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+.trr-alg-card:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.4);
+  transform: translateY(-1px);
+}
+html.light-mode .trr-alg-card { background: rgba(0,0,0,0.03); }
+.trr-alg-name {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--fg);
+}
+
+/* Answer boxes — flex:1 so they share remaining space equally */
+.trr-answer-box {
+  flex: 1;
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  min-width: 0;
+}
+html.light-mode .trr-answer-box { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+.trr-answer-pass { border-color: rgba(74,222,128,0.35); background: rgba(74,222,128,0.06); }
+.trr-answer-fail { border-color: rgba(255,80,80,0.3); background: rgba(255,80,80,0.05); }
+.trr-answer-correct { border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.05); }
+
+.trr-box-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+.trr-box-val {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--fg);
+  word-break: break-word;
+  line-height: 1.6;
+}
+
+.test-results-back { margin-top: 8px; align-self: center; }
+
+/* ── Sidebar help button — adjust min-height here to make it taller ───────── */
+.sidebar-help-btn {
+  margin: 8px 10px 10px;
+  width: calc(100% - 20px);
+  font-size: 0.72rem;
+  color: var(--muted2);
+  border-color: rgba(255,255,255,0.12);
+  text-align: center;
+  /* ── HELP BUTTON HEIGHT — adjust min-height here ── */
+  min-height: 36px;
+  padding: 8px 8px;
+}
+.sidebar-help-btn:hover { color: var(--fg); border-color: rgba(255,255,255,0.4); }
+
+/* ── Sidebar: 18% width, bigger collapse btn ──────────────────────────────── */
+.study-sidebar {
+  width: 18%;
+  min-width: 160px;
+}
+.study-sidebar.sidebar-collapsed {
+  width: 44px;
+  min-width: 44px;
+}
+.study-main {
+  margin-left: 18%;
+}
+.sidebar-collapse-btn {
+  font-size: 1.5rem;
+  padding: 2px 6px;
+  min-width: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Study top bar ────────────────────────────────────────────────────────── */
+.study-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* ── TOPBAR TOP MARGIN — adjust padding-top here ── */
+  padding: 6px 0 4px;
+  gap: 8px;
+  position: relative;
+}
+.study-topbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+.topbar-icon-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--fg);
+  font-size: 1.15rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.topbar-icon-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.5);
+}
+html.light-mode .topbar-icon-btn { border-color: rgba(0,0,0,0.18); }
+html.light-mode .topbar-icon-btn:hover { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.4); }
+.topbar-user-btn { border-color: var(--accent2); color: var(--accent2); }
+.topbar-user-btn:hover { background: rgba(96,165,250,0.12) !important; }
+
+/* ── User dropdown ────────────────────────────────────────────────────────── */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 500;
+  background: rgba(10,10,14,0.97);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 14px 16px 10px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  animation: fadeIn 0.15s ease;
+}
+html.light-mode .user-dropdown {
+  background: rgba(255,255,255,0.97);
+  border-color: rgba(0,0,0,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.user-dropdown-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent2);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.user-dropdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.ud-total { margin-top: 2px; }
+.ud-val { font-family: var(--font-mono); }
+.ud-val.ud-accent { color: var(--accent); }
+.user-dropdown-bar-wrap {
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin: 4px 0 6px;
+  overflow: hidden;
+}
+html.light-mode .user-dropdown-bar-wrap { background: rgba(0,0,0,0.1); }
+.user-dropdown-bar { height: 100%; background: var(--accent); border-radius: 2px; }
+.ud-clear-btn {
+  width: 100%;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  padding: 5px 8px;
+  text-align: center;
+}
+
+/* ── Test Page Layout ─────────────────────────────────────────────────────── */
+.test-page { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.test-layout { display: flex; flex: 1; min-height: 0; height: 100%; }
+
+.test-left-panel {
+  width: 50%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  height: 100%;
+  overflow: hidden;
+}
+html.light-mode .test-left-panel { border-right-color: rgba(0,0,0,0.1); }
+
+/* Back button bar */
+.test-topbar {
+  display: flex;
+  align-items: center;
+  /* ── TEST PAGE BACK BUTTON TOP MARGIN — adjust padding-top here ── */
+  padding: 8px 16px 6px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+html.light-mode .test-topbar { border-bottom-color: rgba(0,0,0,0.07); }
+.test-back-btn { font-size: 0.9rem; padding: 6px 16px; }
+
+.test-question-area {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+html.light-mode .test-question-area { border-bottom-color: rgba(0,0,0,0.1); }
+
+/* Grid area: exactly 50% of left panel height */
+.test-grid-area {
+  flex: 0 0 50%;
+  overflow-y: auto;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.test-right-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+.test-cube-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Question header ──────────────────────────────────────────────────────── */
+.test-q-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+.test-q-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.test-q-type {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent2);
+  background: rgba(96,165,250,0.1);
+  border: 1px solid rgba(96,165,250,0.25);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+/* Nav row: prev on left, next on right, large buttons */
+.test-nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+.test-nav-btn {
+  font-size: 0.95rem;
+  padding: 9px 22px;
+  flex: 1;
+}
+.test-nav-prev { text-align: left; }
+.test-nav-next { text-align: right; }
+
+/* ── MC question ──────────────────────────────────────────────────────────── */
+.test-mc-prompt {
+  font-size: 0.9rem;
+  color: var(--fg);
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+/* 2 columns × 3 rows = 6 text-only choices */
+.test-mc-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.test-mc-choice-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 7px;
+  padding: 12px 10px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 52px;
+}
+.test-mc-choice-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.4);
+}
+.test-mc-choice-btn:disabled { cursor: default; }
+.test-mc-choice-btn.test-mc-selected {
+  background: rgba(96,165,250,0.2);
+  border-color: var(--accent2);
+}
+.test-mc-choice-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--fg);
+  word-break: break-all;
+  line-height: 1.5;
+}
+html.light-mode .test-mc-choice-btn { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.12); }
+
+/* ── FF question ──────────────────────────────────────────────────────────── */
+.test-ff-prompt { font-size: 0.88rem; color: var(--fg); line-height: 1.5; flex-shrink: 0; }
+.test-ff-input {
+  width: 100%;
+  height: 30vh;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  padding: 12px 14px;
+  border-radius: 5px;
+  outline: none;
+  resize: none;
+  transition: border-color 0.2s;
+  line-height: 1.6;
+}
+.test-ff-input:focus { border-color: var(--accent2); }
+html.light-mode .test-ff-input { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.2); }
+.test-ff-submit { margin-top: 2px; }
+.test-ff-saved { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent); }
+
+/* ── Question grid section boxes ──────────────────────────────────────────── */
+.test-grid-title {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* MC and FF boxed separately */
+.test-q-section-box {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 7px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+html.light-mode .test-q-section-box { border-color: rgba(0,0,0,0.1); }
+
+.test-q-section-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* 5 per row, large buttons */
+.test-q-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+.test-q-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--muted2);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  padding: 10px 4px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.12s, border-color 0.12s;
+}
+.test-q-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.35); }
+.test-q-btn.test-q-answered { background: rgba(96,165,250,0.2); border-color: var(--accent2); color: var(--accent2); }
+.test-q-btn.test-q-current { border-color: var(--accent); color: var(--accent); }
+.test-q-btn.test-q-ff { border-style: dashed; }
+html.light-mode .test-q-btn { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: rgba(0,0,0,0.5); }
+
+/* Submit button — adjust min-height here to make it taller */
+.test-submit-btn {
+  font-size: 0.9rem;
+  width: 100%;
+  margin-top: 3px;
+  /* ── SUBMIT BUTTON HEIGHT — adjust min-height here ── */
+  min-height: 20px;
+  padding: 10px;
+}
+
+/* ── Test Results page ────────────────────────────────────────────────────── */
+.test-results-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Top bar with back-to-menu at top-left */
+.results-topbar {
+  display: flex;
+  align-items: center;
+  padding: 10px 24px 6px;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+html.light-mode .results-topbar { border-bottom-color: rgba(0,0,0,0.07); }
+
+.test-results-box {
+  width: 100%;
+  max-width: 960px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 24px 60px;
+}
+.test-results-score {
+  font-family: var(--font-mono);
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+.test-results-breakdown {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  font-size: 0.88rem;
+  color: var(--muted2);
+  font-family: var(--font-mono);
+}
+.test-results-grade { font-size: 1.2rem; text-align: center; color: var(--fg); }
+
+/* Review header row */
+.test-review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+html.light-mode .test-review-header { border-top-color: rgba(0,0,0,0.1); }
+
+.test-review-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.test-filter-btn {
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  color: var(--muted2);
+}
+.test-filter-active {
+  color: var(--accent2) !important;
+  border-color: var(--accent2) !important;
+  background: rgba(96,165,250,0.1) !important;
+}
+
+.test-review-list { display: flex; flex-direction: column; gap: 8px; }
+
+/* Each review row: 65% of screen width, columns: 5% | 20% | ~score | 20% | 20% */
+.test-review-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  width: 65vw;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+html.light-mode .test-review-row { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.07); }
+
+/* Q index — 5% */
+.trr-qidx {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  width: 5%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Algorithm card — 15vw wide, same style as menu cards */
+.trr-alg-card {
+  width: 15vw;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 8px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.trr-alg-card:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.4);
+  transform: translateY(-1px);
+}
+html.light-mode .trr-alg-card { background: rgba(0,0,0,0.03); }
+.trr-alg-name { font-family: var(--font-mono); font-size: 0.72rem; color: var(--fg); }
+
+/* Score badge */
+.trr-score {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  width: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.trr-pass { color: var(--accent); }
+.trr-fail { color: rgba(255,80,80,0.8); }
+
+/* Answer boxes — each 20% of row (flex:1 shares remaining space equally) */
+.trr-answer-box {
+  flex: 1;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  min-width: 0;
+}
+html.light-mode .trr-answer-box { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+.trr-answer-pass { border-color: rgba(74,222,128,0.35); background: rgba(74,222,128,0.06); }
+.trr-answer-fail { border-color: rgba(255,80,80,0.3); background: rgba(255,80,80,0.05); }
+.trr-answer-correct { border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.05); }
+
+.trr-box-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+.trr-box-val {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--fg);
+  word-break: break-word;
+  line-height: 1.5;
 }

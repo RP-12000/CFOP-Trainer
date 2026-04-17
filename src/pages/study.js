@@ -31,17 +31,13 @@ export function renderStudyPage(root) {
   sidebar.className = 'study-sidebar';
   layout.appendChild(sidebar);
 
-  // Sidebar header with collapse toggle
+  // Sidebar header with collapse toggle only (no title)
   const sideHeader = document.createElement('div');
   sideHeader.className = 'sidebar-header';
-  const sideTitle = document.createElement('span');
-  sideTitle.className = 'sidebar-title';
-  sideTitle.textContent = 'CFOP Trainer';
   const collapseBtn = document.createElement('button');
   collapseBtn.className = 'sidebar-collapse-btn';
   collapseBtn.title = 'Collapse sidebar';
-  collapseBtn.innerHTML = '&#8249;'; // ‹
-  sideHeader.appendChild(sideTitle);
+  collapseBtn.innerHTML = '&#8249;';
   sideHeader.appendChild(collapseBtn);
   sidebar.appendChild(sideHeader);
 
@@ -53,7 +49,7 @@ export function renderStudyPage(root) {
   let sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === '1';
   function applySidebarCollapse() {
     sidebar.classList.toggle('sidebar-collapsed', sidebarCollapsed);
-    main.style.marginLeft = sidebarCollapsed ? '36px' : '200px';
+    main.style.marginLeft = sidebarCollapsed ? '44px' : '18%';
     collapseBtn.innerHTML = sidebarCollapsed ? '&#8250;' : '&#8249;';
     collapseBtn.title = sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar';
   }
@@ -62,74 +58,6 @@ export function renderStudyPage(root) {
     localStorage.setItem('sidebar_collapsed', sidebarCollapsed ? '1' : '0');
     applySidebarCollapse();
   });
-  // applySidebarCollapse() called after main is created below
-
-  // Controls inside sidebar
-  const ctrlGroup = document.createElement('div');
-  ctrlGroup.className = 'sidebar-ctrl-group';
-  // ... (appended to sideBody below)
-
-  const themeBtn = document.createElement('button');
-  themeBtn.className = 'btn-ghost sidebar-btn';
-  themeBtn.textContent = document.documentElement.classList.contains('light-mode') ? '☾ Dark Mode' : '☀ Light Mode';
-  themeBtn.addEventListener('click', () => {
-    document.documentElement.classList.toggle('light-mode');
-    themeBtn.textContent = document.documentElement.classList.contains('light-mode') ? '☾ Dark Mode' : '☀ Light Mode';
-  });
-
-  const animBtn = document.createElement('button');
-  animBtn.className = 'btn-ghost sidebar-btn';
-  animBtn.textContent = animEnabled ? '⏸ Hide Animation' : '▶ Show Animation';
-  animBtn.addEventListener('click', () => {
-    const nowEnabled = localStorage.getItem('study_anim') !== 'off';
-    if (nowEnabled) {
-      localStorage.setItem('study_anim', 'off');
-      if (studyBgCubes) { studyBgCubes.destroy(); studyBgCubes = null; }
-      // Pause title cubes instead of destroying them
-      if (leftTitleCube)  leftTitleCube.setRunning(false);
-      if (rightTitleCube) rightTitleCube.setRunning(false);
-    } else {
-      localStorage.setItem('study_anim', 'on');
-      if (leftTitleCube)  leftTitleCube.setRunning(true);
-      if (rightTitleCube) rightTitleCube.setRunning(true);
-      if (!studyBgCubes) {
-        studyBgCubes = new FloatingCubesBackground(document.body);
-      }
-    }
-    animBtn.textContent = localStorage.getItem('study_anim') !== 'off' ? '⏸ Hide Animation' : '▶ Show Animation';
-  });
-
-  const clearBtn = document.createElement('button');
-  clearBtn.className = 'btn-ghost sidebar-btn sidebar-btn-danger';
-  clearBtn.textContent = '✕ Clear Progress';
-  clearBtn.addEventListener('click', () => {
-    if (confirm('Reset all progress? This cannot be undone.')) {
-      clearAllProgress();
-      clearViewed();
-      renderStudyPage(root);
-    }
-  });
-
-  ctrlGroup.appendChild(themeBtn);
-  ctrlGroup.appendChild(animBtn);
-  ctrlGroup.appendChild(clearBtn);
-  sideBody.appendChild(ctrlGroup);
-
-  // Progress summary
-  const totalAlgs = ALGORITHMS.length;
-  const mcDone  = ALGORITHMS.filter(a => getMCBest(a.id) === 5).length;
-  const ffDone  = ALGORITHMS.filter(a => getFFPassed(a.id)).length;
-  const fullDone = ALGORITHMS.filter(a => isFullyMastered(a.id)).length;
-
-  const progressBox = document.createElement('div');
-  progressBox.className = 'sidebar-progress';
-  progressBox.innerHTML = `
-    <div class="sidebar-progress-row"><span>Multiple Choice ✓</span><span class="sp-val">${mcDone} / ${totalAlgs}</span></div>
-    <div class="sidebar-progress-row"><span>Full Formula ✓</span><span class="sp-val">${ffDone} / ${totalAlgs}</span></div>
-    <div class="sidebar-progress-row sp-total"><span>Fully Mastered</span><span class="sp-val accent">${fullDone} / ${totalAlgs}</span></div>
-    <div class="sidebar-progress-bar-wrap"><div class="sidebar-progress-bar" style="width:${Math.round(fullDone/totalAlgs*100)}%"></div></div>
-  `;
-  sideBody.appendChild(progressBox);
 
   // Quick-links nav
   const navLabel = document.createElement('div');
@@ -191,6 +119,113 @@ export function renderStudyPage(root) {
   layout.appendChild(main);
   applySidebarCollapse(); // now main exists
 
+  // ── TOP BAR (icon buttons + user button) ──────────────────────────────────
+  const topBar = document.createElement('div');
+  topBar.className = 'study-topbar';
+  main.appendChild(topBar);
+
+  // Left spacer
+  const topBarLeft = document.createElement('div');
+  topBarLeft.style.flex = '1';
+  topBar.appendChild(topBarLeft);
+
+  // Icon buttons group
+  const iconGroup = document.createElement('div');
+  iconGroup.className = 'study-topbar-icons';
+  topBar.appendChild(iconGroup);
+
+  // Theme toggle icon button
+  const themeIconBtn = document.createElement('button');
+  themeIconBtn.className = 'topbar-icon-btn';
+  themeIconBtn.title = document.documentElement.classList.contains('light-mode') ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+  themeIconBtn.innerHTML = document.documentElement.classList.contains('light-mode') ? '☾' : '☀';
+  themeIconBtn.addEventListener('click', () => {
+    document.documentElement.classList.toggle('light-mode');
+    const isLight = document.documentElement.classList.contains('light-mode');
+    themeIconBtn.innerHTML = isLight ? '☾' : '☀';
+    themeIconBtn.title = isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+  });
+  iconGroup.appendChild(themeIconBtn);
+
+  // Animation toggle icon button
+  const animIconBtn = document.createElement('button');
+  animIconBtn.className = 'topbar-icon-btn';
+  const _animOn = () => localStorage.getItem('study_anim') !== 'off';
+  animIconBtn.title = _animOn() ? 'Hide Animation' : 'Show Animation';
+  animIconBtn.innerHTML = _animOn() ? '⏸' : '▶';
+  animIconBtn.addEventListener('click', () => {
+    const nowEnabled = _animOn();
+    if (nowEnabled) {
+      localStorage.setItem('study_anim', 'off');
+      if (studyBgCubes) { studyBgCubes.destroy(); studyBgCubes = null; }
+      if (leftTitleCube)  leftTitleCube.setRunning(false);
+      if (rightTitleCube) rightTitleCube.setRunning(false);
+    } else {
+      localStorage.setItem('study_anim', 'on');
+      if (leftTitleCube)  leftTitleCube.setRunning(true);
+      if (rightTitleCube) rightTitleCube.setRunning(true);
+      if (!studyBgCubes) studyBgCubes = new FloatingCubesBackground(document.body);
+    }
+    animIconBtn.innerHTML = _animOn() ? '⏸' : '▶';
+    animIconBtn.title = _animOn() ? 'Hide Animation' : 'Show Animation';
+  });
+  iconGroup.appendChild(animIconBtn);
+
+  // Test mode icon button
+  const testIconBtn = document.createElement('button');
+  testIconBtn.className = 'topbar-icon-btn';
+  testIconBtn.title = 'Test Mode';
+  testIconBtn.innerHTML = '📝';
+  testIconBtn.addEventListener('click', () => {
+    if (studyBgCubes) { studyBgCubes.destroy(); studyBgCubes = null; }
+    import('./test.js').then(m => m.renderTestPage(root));
+  });
+  iconGroup.appendChild(testIconBtn);
+
+  // User button
+  const userBtn = document.createElement('button');
+  userBtn.className = 'topbar-icon-btn topbar-user-btn';
+  userBtn.title = 'Your Progress';
+  userBtn.innerHTML = '👤';
+  iconGroup.appendChild(userBtn);
+
+  // User dropdown
+  const userDropdown = document.createElement('div');
+  userDropdown.className = 'user-dropdown hidden';
+  iconGroup.appendChild(userDropdown);
+
+  const totalAlgs = ALGORITHMS.length;
+  const mcDone  = ALGORITHMS.filter(a => getMCBest(a.id) === 5).length;
+  const ffDone  = ALGORITHMS.filter(a => getFFPassed(a.id)).length;
+  const fullDone = ALGORITHMS.filter(a => isFullyMastered(a.id)).length;
+
+  userDropdown.innerHTML = `
+    <div class="user-dropdown-title">Your Progress</div>
+    <div class="user-dropdown-row"><span>Multiple Choice ✓</span><span class="ud-val">${mcDone} / ${totalAlgs}</span></div>
+    <div class="user-dropdown-row"><span>Full Formula ✓</span><span class="ud-val">${ffDone} / ${totalAlgs}</span></div>
+    <div class="user-dropdown-row ud-total"><span>Fully Mastered</span><span class="ud-val ud-accent">${fullDone} / ${totalAlgs}</span></div>
+    <div class="user-dropdown-bar-wrap"><div class="user-dropdown-bar" style="width:${Math.round(fullDone/totalAlgs*100)}%"></div></div>
+  `;
+
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'btn-ghost sidebar-btn sidebar-btn-danger ud-clear-btn';
+  clearBtn.textContent = '✕ Clear Progress';
+  clearBtn.addEventListener('click', () => {
+    if (confirm('Reset all progress? This cannot be undone.')) {
+      clearAllProgress();
+      clearViewed();
+      renderStudyPage(root);
+    }
+  });
+  userDropdown.appendChild(clearBtn);
+
+  userBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown.classList.toggle('hidden');
+  });
+  document.addEventListener('click', () => userDropdown.classList.add('hidden'), { once: false });
+  userDropdown.addEventListener('click', e => e.stopPropagation());
+
   const titleRow = document.createElement('div');
   titleRow.className = 'study-title-row';
 
@@ -224,7 +259,6 @@ export function renderStudyPage(root) {
     sectionEl.className = 'section-block';
     sectionEl.id = 'section-' + section;
 
-    // Header — hover reveals full name, no collapse
     const header = document.createElement('div');
     header.className = 'section-header';
 
@@ -285,7 +319,6 @@ export function renderStudyPage(root) {
         nameSpan.textContent = alg.name;
         card.appendChild(nameSpan);
 
-        // Status badges top-right
         const badgeRow = document.createElement('div');
         badgeRow.className = 'card-badge-row';
         if (mcOk)  badgeRow.innerHTML += '<span class="card-badge badge-mc" title="Multiple Choice passed">MC</span>';
@@ -308,10 +341,8 @@ export function renderStudyPage(root) {
     main.appendChild(sectionEl);
   });
 
-  // Trophy check — only if ALL algorithms fully mastered
   if (ALGORITHMS.every(a => isFullyMastered(a.id))) showTrophy(root);
 
-  // Footer
   const footer = document.createElement('footer');
   footer.className = 'study-footer';
   footer.innerHTML = `
@@ -356,7 +387,11 @@ function showHelp(root) {
       </div>
       <div class="help-section">
         <div class="help-heading">Progress</div>
-        <p>An algorithm is <strong>fully mastered</strong> when you score 5/5 on MC <em>and</em> pass the Full Formula. The sidebar tracks your overall progress.</p>
+        <p>An algorithm is <strong>fully mastered</strong> when you score 5/5 on MC <em>and</em> pass the Full Formula. The top-right user button tracks your overall progress.</p>
+      </div>
+      <div class="help-section">
+        <div class="help-heading">Test Mode</div>
+        <p>Click the 📝 button to take a 30-question timed test. 20 multiple choice (3 pts each) + 10 full formula (4 pts each) = 100 points.</p>
       </div>
       <button class="btn-primary" id="help-close">Got it</button>
     </div>`;
